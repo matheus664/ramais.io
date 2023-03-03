@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+
+{% block conteudo %}
+
+<h1 style="text-align: center;">Atualizar Ramal</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="alert alert-success">
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+
+<form action="{{url_for('atualiza_ramal', id=ramal.id)}}" method="POST" class="form-control" required >
+    <label>Nome</label>
+    <input class="form-control" type="text", name="nome" value="{{ramal.nome}}"  required >
+    <label>Departamento</label>
+    <textarea class="form-control"  name="departamento" required> {{ramal.departamento}} </textarea>
+    <label>Ramal</label>
+    <input class="form-control" type="text", name="ramal" value="{{ramal.ramal}}" required>
+    <label>Loja</label>
+    <input class="form-control" type="text", name="loja" value="{{ramal.loja}}" required>
+
+    <button class="btn btn-primary">Atualizar</button>
+
+
+</form>
+
+
+
+{%endblock conteudo%}

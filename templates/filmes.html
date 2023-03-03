@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+
+{% block conteudo %}
+
+<h1 style="text-align: center;">Filmes</h1>
+<hr>
+
+<div class="row">
+    {%for filme in filmes%}
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <img src="http://image.tmdb.org/t/p/w500{{filme.backdrop_path}}" class="card-img-top" alt="...">
+        <div class="card-body">
+        <h5 class="card-title">{{filme.title}}</h5>
+        <p class="card-text">{{filme.overview}}</p>
+        <h6>Nota média   <span class="badge bg-primary">    {{filme.vote_average}}       </span>     </h6>
+        <h6>Linguagem <span class="badge bg-primary">       {{filme.original_language}}  </span>     </h6>
+
+        <a href="https://topflix.vc/filmes/" class="btn btn-primary">Assistir</a>
+
+
+        </div>
+    </div>
+    </div>
+    {%endfor%}
+</div>
+{%endblock conteudo%}
