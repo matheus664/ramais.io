@@ -18,7 +18,7 @@
           <th scope="col">Departamento</th>
           <th scope="col">Ramal</th>
           <th scope="col">Loja</th>
-          <th scope="col">Ativo</th>
+          <!-- <th scope="col">Ativo</th> -->
           <th scope="col-1">Ações</th>
           <th scope="col-1"></th>
           <th scope="col-1"></th>
@@ -33,7 +33,7 @@
         <td>{{ramal.departamento}}</td>
         <td>{{ramal.ramal}}</td>
         <td>{{ramal.loja}}</td>
-        <td>{{ramal.ativo}}</td>
+        <!-- <td>{{ramal.ativo}}</td> -->
         <td><a href="{{ramal.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
         <td><a href="{{ramal.id}}/remove_ramal" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
         <td><a href="https://www.udemy.com/home/my-courses/learning/" target="_blank" class="btn btn-success">Ligar</a></td>
@@ -42,7 +42,12 @@
     </tbody>
 </table>
 
-<a href="{{url_for('cria_ramal')}}" class="btn btn-primary">Anterior</a>
-<a href="{{url_for('cria_ramal')}}" class="btn btn-primary">Próximo</a>
+<div class="container">
+    {{pagination.info}}
+    {{pagination.links}}
+
+</div>
+
+
 
 {% endblock conteudo %}

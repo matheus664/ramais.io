@@ -3,7 +3,7 @@ import urllib.request , json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select, create_engine, engine
 from sqlalchemy.orm import sessionmaker
-from flask_paginate import Pagination, get_page_parameter
+from flask_paginate import Pagination, get_page_args
 
 # "sqlite:///cursos.sqlite3"
 
@@ -41,34 +41,58 @@ class ramais (db.Model):
     ramal = db.Column (db.Integer)
     loja = db.Column (db.String(50))
     ativo = db.Column (db.Integer)
-    foto = db.Column (db.String(50))
     
 
 
 
 
-    def __init__ (self, nome,departamento, ramal, loja, ativo, foto):
+    def __init__ (self, nome,departamento, ramal, loja, ativo):
         self.nome = nome
         self.departamento = departamento
         self.ramal = ramal
         self.loja = loja
         self.ativo = ativo
-        self.foto = foto
 
 
 
 
+app.template_folder = "templates"
+users = list (range (100))
+
+def get_users  (offset = 0, per_page= 10):
+    return users [offset:offset + per_page]
 
 
-@app.route ('/', methods = ["GET", "POST"])
+@app.route ('/')
 def index ():
+    page, per_page, offset = get_page_args (page_parameter = 'page', per_page_parameter='per_page')
+    total = len (users)
+    pagination_users = get_users (offset= offset, per_page= per_page )
+    pagination = Pagination (page=page, per_page=per_page, total=total,css_framework = 'bootstrap4')
+    return render_template ('ramais.html', users=pagination_users, page=page, per_page= 50, pagination=pagination)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @app.route ('/', methods = ["GET", "POST"])
+# def index ():
     
-    #frutas = ['Morango','Uva','Maça','Laranja','Limao', 'Caqui', 'Carambola']
+#     #frutas = ['Morango','Uva','Maça','Laranja','Limao', 'Caqui', 'Carambola']
     
-    if request.method == "POST" :
-        if request.form.get("fruta"):
-            frutas.append(request.form.get("fruta"))
-    return render_template ("index.html",frutas=frutas)
+#     if request.method == "POST" :
+#         if request.form.get("fruta"):
+#             frutas.append(request.form.get("fruta"))
+#     return render_template ("index.html",frutas=frutas)
 
 
 
@@ -115,8 +139,15 @@ def lista_cursos ():
 @app.route ('/ramais')
 def lista_ramais ():
 
+    page, per_page, offset = get_page_args (page_parameter = 'page', per_page_parameter='per_page')
+    total = len (users)
+    pagination_users = get_users (offset= offset, per_page= per_page )
+    pagination = Pagination (page=page, per_page=per_page, total=total,css_framework = 'bootstrap4')
+    return render_template ('ramais.html', users=pagination_users, page=page, per_page= 50, pagination=pagination, ramais=ramais.query.filter(ramais.ramal != '', ramais.departamento != '', ramais.ativo != 0).order_by(ramais.id).limit(6))
 
-    return render_template ('ramais.html', ramais=ramais.query.filter(ramais.ramal != '', ramais.departamento != '', ramais.ativo != 0).order_by(ramais.id).limit(6))
+
+
+    
 
 
 
@@ -139,10 +170,6 @@ def cria_curso():
 
 
 
-@app.route ('/page1', methods = ["GET", "POST"])
-def paginate ():
-    ramal = ramais.query.filter(ramais.ramal != '', ramais.departamento != '', ramais.ativo != 0).order_by(ramais.id).limit(6)
-    return render_template('ramais.html', ramal=ramal)
 
 
 
@@ -152,14 +179,14 @@ def cria_ramal ():
     departamento = request.form.get ('departamento')
     ramal = request.form.get ('ramal')
     loja = request.form.get ('loja')
+    ativo = request.form.get ('ativo')
     error = None
 
     if request.method == "POST":
-        if not nome or not departamento or not ramal or not loja :
-            print (nome, departamento, ramal, loja)
+        if not nome or not departamento or not ramal or not loja or not ativo:
             flash ("Preencha todos os campos do formulário!", "error")
         else:
-            ramal = ramais (nome, departamento, ramal, loja)
+            ramal = ramais (nome, departamento, ramal, loja, ativo)
             db.session.add(ramal)
             db.session.commit()
             return redirect (url_for('lista_ramais'))
@@ -217,6 +244,11 @@ def remove_ramal (id):
     db.session.delete(ramal)
     db.session.commit()
     return redirect (url_for('lista_ramais'))
+
+
+
+
+    
 
 
 
