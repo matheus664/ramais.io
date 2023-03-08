@@ -1,0 +1,52 @@
+{%extends 'base.html'%}
+
+{% block conteudo %}
+
+
+<h1 style="text-align: center;"></h1>
+
+<ul class="list-group">
+
+    {% for fruta in frutas %}
+
+    <li class="list-group-item">{{fruta}}</li>
+
+    {% endfor %}
+<!-- 
+    <form action="{{url_for('index')}}" method="POST">
+
+        <div class="form-group">
+            <label for="exemploFruta" >Fruta</label>
+            <input class="form-control" id="exemploFruta" type="text" name="fruta" placeholder="Digite o nome de uma Fruta">
+        </div>
+
+
+        <button class="btn btn-success">Adicionar</button> -->
+    
+        <div _ngcontent-rwb-c34="" class="card-work-area card-work-area-menu shadow bg-white card-work-area-panel rounded">
+        <i _ngcontent-rwb-c34="" class="float-right icon icon-card-work-area icon-lx-users">
+        </i> Manutenção de usuários </a>
+        <form _ngcontent-rwb-c34="" class="mt-8 ng-untouched ng-pristine ng-valid" novalidate="">
+        <div _ngcontent-rwb-c34="" class="col-20">
+        <div _ngcontent-rwb-c34="" class="form-group has-feedback">
+        <label _ngcontent-rwb-c34="" for="textInputUsuario"> Usuário </label>
+        <input _ngcontent-rwb-c34="" autocomplete="off" class="form-control ng-untouched ng-pristine ng-valid" id="textInputUsuario" name="Usuario" placeholder="Digite o nome do usuário" type="text">
+        <!-- <span _ngcontent-rwb-c34="" class="icon icon-lx-search form-control-feedback"></span> -->
+        </div></div><div _ngcontent-rwb-c34="" class="col-20 justify-content-right">
+        <input _ngcontent-rwb-c34="" class="btn btn-primary btn-sm" name="Pesquisar" type="submit" value="Pesquisar"></div></form></div>
+    </form>
+
+</ul>
+
+{%endblock conteudo%}
+
+ 
+
+
+
+
+
+
+
+
+</html>

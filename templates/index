@@ -1,0 +1,3 @@
+td><a href="{{ramal.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
+        <td><a href="{{ramal.id}}/remove_ramal" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
+        <td><a href="https://www.udemy.com/home/my-courses/learning/" target="_blank" class="btn btn-success">Ligar</a></td>
