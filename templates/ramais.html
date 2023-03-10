@@ -26,27 +26,59 @@
           
     </thead>
     <tbody>
-    {% for ramal in ramais%}
+    {% for r in ramal.items%}
     <tr>
-        <!-- <td>{{ramal.id}}</td> -->
-        <td>{{ramal.nome}}</td>
-        <td>{{ramal.departamento}}</td>
-        <td>{{ramal.ramal}}</td>
-        <td>{{ramal.loja}}</td>
-        <!-- <td>{{ramal.ativo}}</td> -->
-        <td><a href="{{ramal.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
-        <td><a href="{{ramal.id}}/remove_ramal" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
+        <td>{{r.nome}}</td>
+        <td>{{r.departamento}}</td>
+        <td>{{r.ramal}}</td>
+        <td>{{r.loja}}</td>
+        <td><a href="{{r.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
+        <td><a href="{{r.id}}/remove_ramal" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
         <td><a href="https://www.udemy.com/home/my-courses/learning/" target="_blank" class="btn btn-success">Ligar</a></td>
+        
+    
     </tr>
+
     {%endfor%}
     </tbody>
 </table>
 
-<div class="container">
-    {{pagination.info}}
-    {{pagination.links}}
 
+<!-- Pagination Links-->
+<div class="text-right">
+    <a href="{{ url_for('lista_ramais', page=ramal.prev_num) }}"
+       class="btn btn-primary
+       {% if ramal.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a>
+<!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in ramal.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+            {% if ramal.page == page_num %}
+            <a href="{{ url_for('lista_ramais', page=page_num) }}"
+               class="btn btn-primary">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('lista_ramais', page=page_num) }}"
+               class="btn btn-primary">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+    <a href="{{ url_for('lista_ramais', page=ramal.next_num) }}"
+       class="btn btn-primary 
+       {% if ramal.page == ramal.pages %}disabled{% endif %}">
+        &raquo;
+    </a>
 </div>
+<p class="text-right mt-3">
+   Mostrando página {{ ramal.page }} de {{ ramal.pages }}
+</p>
 
 
 
