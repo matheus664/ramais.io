@@ -1,0 +1,59 @@
+{%extends 'base.html'%}
+
+{% block conteudo %}
+
+
+<h1 style="text-align: center;">Ramais</h1>
+
+<br>
+
+<a href="{{url_for('cria_ramal')}}" class="btn btn-primary">Adicionar Ramal</a>
+
+<br><br>
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+          <!-- <th scope="col">Id</th> -->
+          <th scope="col">Nome</th>
+          <th scope="col">Departamento</th>
+          <th scope="col">Ramal</th>
+          <th scope="col">Loja</th>
+          <!-- <th scope="col">Ativo</th> -->
+          <th scope="col-1">Ações</th>
+          <th scope="col-1"></th>
+          <th scope="col-1"></th>
+
+          
+    </thead>
+    <tbody>
+    {% for r in ramal %}
+    <tr>
+        {%for x in r%}
+        <td>{{x.nome}}</td>
+        {%endfor%}
+        {%for d in r%}
+        <td>{{d.departamento}}</td>
+        {%endfor%}
+        {%for m in r%}
+        <td>{{m.ramal}}</td>
+        {%endfor%}
+        {%for l in r%}
+        <td>{{l.loja}}</td>
+        {%endfor%}
+        <td><a href="" class="btn btn-secondary ">Editar</a></td>
+        <td><a href="" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
+        <td><a href="https://www.udemy.com/home/my-courses/learning/" target="_blank" class="btn btn-success">Ligar</a></td>
+        
+    
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+
+
+
+{% endblock conteudo %}

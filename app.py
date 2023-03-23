@@ -29,7 +29,7 @@ class ramais (db.Model):
     departamento = db.Column(db.String (100))
     ramal = db.Column (db.Integer)
     loja = db.Column (db.String(50))
-    ativo = db.Column (db.Integer)
+    ativo = db.Column (db.Integer, default = 1)
     
 
 
@@ -42,13 +42,17 @@ class ramais (db.Model):
         self.loja = loja
         self.ativo = ativo
 
-ROWS_PER_PAGE = 10
+ROWS_PER_PAGE = 6
 
 @app.route ('/ramais')
 def lista_ramais ():
 
     page = request.args.get('page', 1, type=int)
     ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
+
+
+    
+
 
     return render_template ('ramais.html', ramal = ramal)
 
@@ -101,6 +105,28 @@ def remove_ramal (id):
     db.session.delete(ramal)
     db.session.commit()
     return redirect (url_for('lista_ramais'))
+
+
+@app.route ('/results',methods = ["POST"])
+def pesquisar ():
+    resultado = request.form.get ("search")
+    pesquisa = "{}".format(resultado)
+    nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
+    departamento = ramais.query.filter (ramais.departamento.like (pesquisa)).all()
+    descricao = ramais.query.filter(ramais.ramal.like (pesquisa)).all()
+    ramal = [nome, departamento, descricao]
+
+    
+    
+   
+    
+    
+
+
+
+
+    return render_template ('retorno_ramal.html', ramal = ramal )
+
 
 
 
