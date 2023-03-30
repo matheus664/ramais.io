@@ -17,7 +17,7 @@ app = Flask (__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:tecnical@localhost/ramais"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@localhost/ramais"
 
 db = SQLAlchemy(app)
 
@@ -107,25 +107,19 @@ def remove_ramal (id):
     return redirect (url_for('lista_ramais'))
 
 
-@app.route ('/results',methods = ["POST"])
+@app.route ('/results',methods = ["GET","POST"])
 def pesquisar ():
     resultado = request.form.get ("search")
     pesquisa = "{}".format(resultado)
     nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
     departamento = ramais.query.filter (ramais.departamento.like (pesquisa)).all()
-    descricao = ramais.query.filter(ramais.ramal.like (pesquisa)).all()
-    ramal = [nome, departamento, descricao]
+    ramal = ramais.query.filter(ramais.ramal.like (pesquisa)).all()
+    loja = ramais.query.filter (ramais.ramal.like (pesquisa)).all()
+    lista = [nome, departamento, ramal, loja]
 
     
     
-   
-    
-    
-
-
-
-
-    return render_template ('retorno_ramal.html', ramal = ramal )
+    return render_template ('retorno_ramal.html', lista = lista )
 
 
 

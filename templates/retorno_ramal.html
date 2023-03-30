@@ -26,28 +26,24 @@
           
     </thead>
     <tbody>
-    {% for r in ramal %}
+    {% for list in lista %}
     <tr>
-        {%for x in r%}
-        <td>{{x.nome}}</td>
+        {%for nome in list%}
+        <td>{{nome.nome}}</td>
         {%endfor%}
-        {%for d in r%}
-        <td>{{d.departamento}}</td>
+        {%for departamento in list%}
+        <td>{{departamento.departamento}}</td>
         {%endfor%}
-        {%for m in r%}
-        <td>{{m.ramal}}</td>
+        {%for ramal in list%}
+        <td>{{ramal.ramal}}</td>
         {%endfor%}
-        {%for l in r%}
-        <td>{{l.loja}}</td>
+        {%for loja in list%}
+        <td>{{loja.loja}}</td>
         {%endfor%}
-        <td><a href="" class="btn btn-secondary ">Editar</a></td>
-        <td><a href="" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
-        <td><a href="https://www.udemy.com/home/my-courses/learning/" target="_blank" class="btn btn-success">Ligar</a></td>
-        
-    
+       
     </tr>
-    {% endfor %}
-
+    {%endfor%}
+0
     </tbody>
 </table>
 
