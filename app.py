@@ -42,18 +42,14 @@ class ramais (db.Model):
         self.loja = loja
         self.ativo = ativo
 
-ROWS_PER_PAGE = 6
+ROWS_PER_PAGE = 8
 
-@app.route ('/ramais')
+@app.route ('/')
 def lista_ramais ():
 
     page = request.args.get('page', 1, type=int)
     ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
-
-
     
-
-
     return render_template ('ramais.html', ramal = ramal)
 
 
@@ -115,11 +111,40 @@ def pesquisar ():
     departamento = ramais.query.filter (ramais.departamento.like (pesquisa)).all()
     ramal = ramais.query.filter(ramais.ramal.like (pesquisa)).all()
     loja = ramais.query.filter (ramais.ramal.like (pesquisa)).all()
-    lista = [nome, departamento, ramal, loja]
+    lista = [nome, departamento, ramal, loja] 
 
     
     
     return render_template ('retorno_ramal.html', lista = lista )
+
+
+@app.route ('/admin', methods = ["GET", "POST"])
+def login ():
+    if request.method == "POST":
+        usuario = request.form.get ('usuario')
+        senha = request.form.get ('senha')
+        if not usuario and not senha:
+            flash ("Preencha os Campos para Prosseguir!")
+        elif usuario == "admin" and senha == "m3tr0n0rt31":
+            ramal = ramais.query.filter().all()
+            print (usuario, senha)
+            return redirect (url_for('lista_ramais'))
+    
+    
+    return render_template ('admin.html')
+
+
+@app.route ('/admramal', methods = ["GET", "POST"])
+def admramal ():
+    page = request.args.get('page', 1, type=int)
+    ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
+    
+    return render_template ('ramaisauth.html', ramal = ramal)
+    
+        
+
+
+
 
 
 

@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+
+{% block conteudo %}
+
+<br>
+
+
+<h1>Login</h1>
+<br>
+
+<div>
+    <form action ="{{url_for('admramal')}}" method ="POST" class ="form-control" required>
+
+    <label>Usuário</label>
+    <input type="text" name="usuario" class ='form-control' required placeholder = "Digite o usuário">
+    <br>
+    
+    <label>Senha</label>
+    <input type="text" name="senha" class = 'form-control' placeholder = "Digite a senha">
+    <input type = 'submit' class="btn btn-primary" required>
+
+    </form>
+</div>
+
+
+
+{% endblock conteudo %}

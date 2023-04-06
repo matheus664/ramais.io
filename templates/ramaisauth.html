@@ -2,9 +2,10 @@
 
 {% block conteudo %}
 
-
 <br>
-<h1 style = 'text-align:center;'>Ramais</h1>
+<h1>Ramais</h1>
+
+
 
 <br>
 <table class="table table-bordered table-hover">
@@ -16,8 +17,9 @@
           <th scope="col">Ramal</th>
           <th scope="col">Loja</th>
           <!-- <th scope="col">Ativo</th> -->
-          
-          
+          <th scope="col-1">Ações</th>
+          <th scope="col-1"></th>
+          <th scope="col-1"></th>
 
           
     </thead>
@@ -28,7 +30,9 @@
         <td>{{r.departamento}}</td>
         <td>{{r.ramal}}</td>
         <td>{{r.loja}}</td>
-        
+        <td><a href="{{r.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
+        <td><a href="{{r.id}}/remove_ramal" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
+        <td><a href="https://www.udemy.com/home/my-courses/learning/" target="_blank" class="btn btn-success">Ligar</a></td>
         
     
     </tr>
@@ -69,6 +73,7 @@
        {% if ramal.page == ramal.pages %}disabled{% endif %}">
         &raquo;
     </a>
+    <a href="{{url_for('cria_ramal')}}" class="btn btn-primary">Adicionar Ramal</a>
 </div>
 <p class="text-right mt-3">
    Mostrando página {{ ramal.page }} de {{ ramal.pages }}
