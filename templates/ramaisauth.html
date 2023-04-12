@@ -3,13 +3,13 @@
 {% block conteudo %}
 
 <br>
-<h1>Ramais</h1>
+<h1 style = 'text-align: center;' class = "display-6">Ramais</h1>
 
 
 
 <br>
 <table class="table table-bordered table-hover">
-    <thead class="table-dark">
+    <thead class="table-default">
         <tr>
           <!-- <th scope="col">Id</th> -->
           <th scope="col">Nome</th>
@@ -19,7 +19,7 @@
           <!-- <th scope="col">Ativo</th> -->
           <th scope="col-1">Ações</th>
           <th scope="col-1"></th>
-          <th scope="col-1"></th>
+          
 
           
     </thead>
@@ -32,7 +32,7 @@
         <td>{{r.loja}}</td>
         <td><a href="{{r.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
         <td><a href="{{r.id}}/remove_ramal" onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
-        <td><a href="https://www.udemy.com/home/my-courses/learning/" target="_blank" class="btn btn-success">Ligar</a></td>
+        
         
     
     </tr>
@@ -44,7 +44,7 @@
 
 <!-- Pagination Links-->
 <div class="text-right">
-    <a href="{{ url_for('lista_ramais', page=ramal.prev_num) }}"
+    <a href="{{ url_for('lista_ramaisauth', page=ramal.prev_num) }}"
        class="btn btn-primary
        {% if ramal.page == 1 %}disabled{% endif %}">
         &laquo;
@@ -54,12 +54,12 @@
 {% if page_num %}
 <!-- Check for the active page and set the link to "Active"-->
             {% if ramal.page == page_num %}
-            <a href="{{ url_for('lista_ramais', page=page_num) }}"
+            <a href="{{ url_for('lista_ramaisauth', page=page_num) }}"
                class="btn btn-primary">
                 {{ page_num }}
             </a>
             {% else %}
-            <a href="{{ url_for('lista_ramais', page=page_num) }}"
+            <a href="{{ url_for('lista_ramaisauth', page=page_num) }}"
                class="btn btn-primary">
                 {{ page_num }}
             </a>
@@ -68,7 +68,7 @@
             ...
         {% endif %}
     {% endfor %}
-    <a href="{{ url_for('lista_ramais', page=ramal.next_num) }}"
+    <a href="{{ url_for('lista_ramaisauth', page=ramal.next_num) }}"
        class="btn btn-primary 
        {% if ramal.page == ramal.pages %}disabled{% endif %}">
         &raquo;

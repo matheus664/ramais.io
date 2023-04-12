@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, Blueprint
+from flask import Flask, render_template, request, redirect, url_for, flash, Blueprint, abort
 import urllib.request , json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select, create_engine, engine
@@ -29,7 +29,7 @@ class ramais (db.Model):
     departamento = db.Column(db.String (100))
     ramal = db.Column (db.Integer)
     loja = db.Column (db.String(50))
-    ativo = db.Column (db.Integer, default = 1)
+    
     
 
 
@@ -40,9 +40,9 @@ class ramais (db.Model):
         self.departamento = departamento
         self.ramal = ramal
         self.loja = loja
-        self.ativo = ativo
+        
 
-ROWS_PER_PAGE = 8
+ROWS_PER_PAGE = 6
 
 @app.route ('/')
 def lista_ramais ():
@@ -52,7 +52,15 @@ def lista_ramais ():
     
     return render_template ('ramais.html', ramal = ramal)
 
+@app.route ('/ramaisauth')
+def lista_ramaisauth ():
 
+    page = request.args.get('page', 1, type=int)
+    ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
+    
+    return render_template ('ramaisauth.html', ramal = ramal)
+
+    
 
 
 @app.route ('/cria_ramal', methods = ["GET", "POST"])
@@ -65,7 +73,7 @@ def cria_ramal ():
     error = None
 
     if request.method == "POST":
-        if not nome or not departamento or not ramal or not loja or not ativo:
+        if not nome or not departamento or not ramal or not loja:
             flash ("Preencha todos os campos do formulário!", "error")
         else:
             ramal = ramais (nome, departamento, ramal, loja, ativo)
@@ -103,32 +111,24 @@ def remove_ramal (id):
     return redirect (url_for('lista_ramais'))
 
 
-@app.route ('/results',methods = ["GET","POST"])
+@app.route ('/results', methods = ["GET","POST"])
 def pesquisar ():
     resultado = request.form.get ("search")
     pesquisa = "{}".format(resultado)
-    nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
-    departamento = ramais.query.filter (ramais.departamento.like (pesquisa)).all()
-    ramal = ramais.query.filter(ramais.ramal.like (pesquisa)).all()
-    loja = ramais.query.filter (ramais.ramal.like (pesquisa)).all()
-    lista = [nome, departamento, ramal, loja] 
-
+    ramal = ramais.query.filter(ramais.nome.like (pesquisa)).all()
     
-    
-    return render_template ('retorno_ramal.html', lista = lista )
+    return render_template ('retorno_ramal.html', ramal = ramal)
 
 
 @app.route ('/admin', methods = ["GET", "POST"])
 def login ():
     if request.method == "POST":
-        usuario = request.form.get ('usuario')
-        senha = request.form.get ('senha')
-        if not usuario and not senha:
-            flash ("Preencha os Campos para Prosseguir!")
-        elif usuario == "admin" and senha == "m3tr0n0rt31":
-            ramal = ramais.query.filter().all()
-            print (usuario, senha)
-            return redirect (url_for('lista_ramais'))
+        usuario = request.form.get ("usuario")
+        senha = request.form.get ("senha")
+        if usuario == "admin" and senha == "admin":
+                return redirect (url_for('admramal'))
+        else :
+            abort (401)
     
     
     return render_template ('admin.html')
@@ -140,17 +140,13 @@ def admramal ():
     ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
     
     return render_template ('ramaisauth.html', ramal = ramal)
-    
-        
 
 
-
-
-
+ 
 
 
 
 with app.app_context():
     db.create_all()
 
-app.run(debug=True)
+app.run(debug=True, host = "127.0.0.1", port = "552")
