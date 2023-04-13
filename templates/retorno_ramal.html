@@ -6,64 +6,79 @@
 <h1 style="text-align: center;" class = "display-6">Ramais</h1>
 
 <br><br>
+
+
 <table class="table table-bordered table-hover">
-    <thead class="table-default">
-        <tr>
+
+  <thead class="table-default">
+
+      <tr>
           <!-- <th scope="col">Id</th> -->
           <th scope="col">Nome</th>
           <th scope="col">Departamento</th>
           <th scope="col">Ramal</th>
-          <th scope="col">Loja</th>
-          <!-- <th scope="col">Ativo</th> -->
+          <th scope="col">Revenda</th> 
+      
+  </thead>
+
+          {%for n in nome%}
+
+      <tbody>
+              <td>{{n.nome}}</td>
+              <td>{{n.departamento}}</td>
+              <td>{{n.ramal}}</td>
+              <td>{{n.loja}}</td>
+
+      </tbody>
+
+          {%endfor%}
+
+      <tbody>
+          
+          {%for d in departamento%}
+
+
+              <td>{{d.nome}}</td>
+              <td>{{d.departamento}}</td>
+              <td>{{d.ramal}}</td>
+              <td>{{d.loja}}</td>
+
+      </tbody>
+
+          {%endfor%}
+
+      <tbody>
+          
+          {%for r in ramal%}
+  
+  
+              <td>{{r.nome}}</td>
+              <td>{{r.departamento}}</td>
+              <td>{{r.ramal}}</td>
+              <td>{{r.loja}}</td>
+  
+      </tbody>
+          {% endfor%}
+
+      <tbody>
+
+          {%for l in loja%}
+  
+  
+              <td>{{l.nome}}</td>
+              <td>{{l.departamento}}</td>
+              <td>{{l.ramal}}</td>
+              <td>{{l.loja}}</td>
+  
+      </tbody>
+
+          {%endfor%}
           
           
-    </thead>
-    <tbody>
-    {% for r in ramal %}
-    <tr>
-        <td>{{r.nome}}</td>
-        <td>{{r.departamento}}</td>
-        <td>{{r.ramal}}</td>
-        <td>{{r.loja}}</td>
-    
-    </tr>
-    {% endfor %}
 
-    </tbody>
+      </tr>
+          
 </table>
-
-<br><br>
-
-</table>
-<div class="mx-4 px-4">
-  <div class="row">
-    <div class="col-6">
-      <h4>Ligação entre filiais</h4>
-      <pre>Para Ligações entre filiais utilizar o respectivo DDD antes do ramal, ex.:
-  Ligando para SJP        41xxxx
-  Ligando para Pnga       42xxxx
-  ligando para Matriz     43xxxx
-  Ligando para Colin      47xxxx
-  Ligando para SJ - SC    48xxxx
-  Ligando para Floripa    48xxxx
-  etc...</pre>
-    </div>
-    <div class="col-6">
-      <h4>Números pilotos das filiais (Ligação direta)</h4>
-      <pre class="ml-4">
-1.1  - Metronorte Matriz        43 3377-1212
-1.2  - Metronorte JK            43 3373-1212
-1.4  - Valesul SJP              41 3081-9900
-1.5  - Valesul PGNA             41 3038-9900
-1.9  - Metronorte Joinville     47 2105-4500
-7.2  - Opera Peugeot            41 3253-7800
-1.13 - Metronorte São José - SC 48 3279-5900 
-1.18 - Floripa Ilha             48-3113-8100
-1.19 - Floripa Continente       48-3113-8200
-1.20 - Floripa Campinas         48-3113-8300</pre>
-    </div>
-  </div>
-</div>
 
 
 

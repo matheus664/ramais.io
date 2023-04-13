@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+
+{% block conteudo%}
+
+
+<h2 align="center" class = 'display-6'>Envie seus Arquivos</h2>
+    <hr>
+    <p>
+        {% with messages = get_flashed_messages()%}
+        {% if messages %}
+        <ul>
+        {% for message in messages%}
+            <li>{{message}}</li>
+        {%endfor%}
+    
+        </ul>
+    
+        {% endif %}
+    
+        {% endwith%}
+    </p>
+        {% if filename%}
+            <div>
+                <img src="{{url_for('display_image', filename = filename)}}" alt="">
+    
+            </div>
+        {% endif %}
+    
+    <form method="post" enctype="multipart/form-data" action="{{url_for('upload_image')}}" class="form-control">
+        <dl>
+            <p>
+                <input type="file" name="file">
+            </p>
+        </dl>
+        <p>
+            <input type="submit" value="Enviar" class="btn btn-primary">
+        </p>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock conteudo%}
