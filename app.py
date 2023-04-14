@@ -6,6 +6,9 @@ from sqlalchemy.orm import sessionmaker
 from flask_paginate import Pagination, get_page_args
 import os, json
 import uuid
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
 
 # "sqlite:///cursos.sqlite3"
 #mysql://root:tecnical@localhost/ramais"
@@ -23,6 +26,9 @@ app.config.from_object('config')
 
 db = SQLAlchemy(app)
 
+ROWS_PER_PAGE = 6
+TIPOS_DISPONIVEIS = set (['png', 'jpg', 'jpeg', 'gif', 'pdf', 'xlsx', 'aac', 'mp3'])
+
 
 
 class ramais (db.Model):
@@ -31,10 +37,6 @@ class ramais (db.Model):
     departamento = db.Column(db.String (100))
     ramal = db.Column (db.Integer)
     loja = db.Column (db.String(50))
-    
-    
-
-
 
 
     def __init__ (self, nome,departamento, ramal, loja):
@@ -44,7 +46,6 @@ class ramais (db.Model):
         self.loja = loja
         
 
-ROWS_PER_PAGE = 6
 
 @app.route ('/')
 def lista_ramais ():
@@ -61,6 +62,7 @@ def lista_ramaisauth ():
     ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
     
     return render_template ('ramaisauth.html', ramal = ramal)
+
 
     
 
@@ -146,11 +148,10 @@ def admramal ():
     return render_template ('ramaisauth.html', ramal = ramal)
 
 
-TIPOS_DISPONIVEIS = set (['png', 'jpg', 'jpeg', 'gif', 'pdf', 'xlsx', 'aac', 'mp3'])
+
 
 def arquivos_permitidos (filename):
     return '.' in filename and filename.rsplit ('.',1)[1].lower () in TIPOS_DISPONIVEIS
-
 
 
 
@@ -178,9 +179,6 @@ def display_image (filename):
     return redirect(url_for('static', filename = 'uploads/' + filename), code = 301)
 
 
-
-
-
 @app.route('/search')
 def upload_form():
 	return render_template('autocomplete.html')
@@ -204,11 +202,11 @@ def search():
 	return resp
 
 
+@app.route ('/email')
+def email ():
+    return render_template('email.html')
 
 
-
-
- 
 
 
 

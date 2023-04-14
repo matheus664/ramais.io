@@ -2,7 +2,7 @@
 
 {% block conteudo %}
 
-<h1 style = 'text-align:center;' class = "display-6">Ramais</h1>
+<h1 style = 'text-align:center;' class ="display-6">Ramais</h1>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -35,9 +35,7 @@
         <td>{{r.nome}}</td>
         <td>{{r.departamento}}</td>
         <td>{{r.ramal}}</td>
-        <td>{{r.loja}}</td>
-        
-        
+        <td>{{r.loja}}</td>     
     
     </tr>
 

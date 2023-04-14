@@ -6,7 +6,7 @@
 
 
 
-<h1 class = "display-6">Login</h1>
+<h1 class ="display-6">Login</h1>
 <br>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -20,15 +20,14 @@
 {% endwith %}
 
 <div>
-    <form action ="{{url_for('login')}}" method ="POST" class ="form-control">
+    <form action ="{{url_for('login')}}" method ="POST" class ="form-control" required>
 
     <label>Usuário</label>
-    <input type="text" name="usuario" class ='form-control'  placeholder = "Digite o usuário">
+    <input type="text" name="usuario"       class ='form-control'       placeholder = "Digite o usuário">
     <br>
-    
     <label>Senha</label>
-    <input type="text" name="senha" class = 'form-control' placeholder = "Digite a senha">
-    <input type = 'submit' class="btn btn-primary" >
+    <input type = 'password' name="senha"   class = 'form-control'      placeholder = "Digite a senha">
+    <input type = 'submit'                  class="btn btn-primary" >
 
     </form>
 </div>

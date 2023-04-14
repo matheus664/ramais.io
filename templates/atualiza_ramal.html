@@ -16,15 +16,16 @@
 
 
 
-<form action="{{url_for('atualiza_ramal', id=ramal.id)}}" method="POST" class="form-control" required >
+<form action="{{url_for('atualiza_ramal', id=ramal.id)}}" method="POST" class="form-control" required>
+
     <label>Nome</label>
-    <input class="form-control" type="text", name="nome" value="{{ramal.nome}}"  required >
+    <input class="form-control" type="text",   name="nome"         value="{{ramal.nome}}">
     <label>Departamento</label>
-    <textarea class="form-control"  name="departamento" required> {{ramal.departamento}} </textarea>
+    <input class="form-control" type= "text",  name="departamento" value="{{ramal.departamento}}"> </input>
     <label>Ramal</label>
-    <input class="form-control" type="text", name="ramal" value="{{ramal.ramal}}" required>
+    <input class="form-control" type="text",   name="ramal"        value="{{ramal.ramal}}">
     <label>Loja</label>
-    <input class="form-control" type="text", name="loja" value="{{ramal.loja}}" required>
+    <input class="form-control" type="text",   name="loja"         value="{{ramal.loja}}">
 
     <button class="btn btn-primary">Atualizar</button>
 
