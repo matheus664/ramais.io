@@ -99,6 +99,7 @@ def atualiza_ramal (id):
 
         ramais.query.filter_by (id=id).update ({"nome":nome,"departamento":departamento, "ramal":ramal,"loja":loja})
         db.session.commit ()
+        flash ("Dados atualizados com sucesso!")
         return redirect (url_for ('lista_ramaisauth'))
 
     return render_template ("atualiza_ramal.html", ramal=ramal)
@@ -112,6 +113,7 @@ def remove_ramal (id):
     ramal = ramais.query.filter_by (id=id).first()
     db.session.delete(ramal)
     db.session.commit()
+    flash ("Dados excluídos com sucesso!")
     return redirect (url_for('lista_ramaisauth'))
 
 
@@ -272,7 +274,8 @@ def sugerir_ramal (id):
 
 
 
-with app.app_context():
-    db.create_all()
+if __name__ == '__main__':
+    website_url = 'metronorte.io:552'
+    app.config['SERVER_NAME'] = website_url
 
-app.run(debug=True, host = "127.0.0.1", port = "552")
+    app.run()
