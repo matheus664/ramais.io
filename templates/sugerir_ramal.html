@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1 style="text-align: center;" class="display-6">Sugerir</h1>
+
+
+<hr>
+    <p>
+        {% with messages = get_flashed_messages()%}
+        {% if messages %}
+        <ul>
+        {% for message in messages%}
+            <li>{{message}}</li>
+        {%endfor%}
+    
+        </ul>
+    
+        {% endif %}
+    
+        {% endwith%}
+    </p>
+
+<form action="{{url_for('sugerir_ramal', id=ramal.id)}}" method="POST" class="form-control" required >
+    <label>Nome</label>
+    <input class="form-control" type="text", name="nome" value="{{ramal.nome}}"  required >
+    <label>Departamento</label>
+    <input type="text" class="form-control"  name="departamento"value="{{ramal.departamento}}" required> </input>
+    <label>Ramal</label>
+    <input class="form-control" type="text", name="ramal" value="{{ramal.ramal}}" required>
+    <label>Revenda</label>
+    <input class="form-control" type="text", name="loja" value="{{ramal.loja}}" required>
+    <button class="btn btn-primary">Sugerir</button>
+
+
+</form>
+
+
+
+
+
+{% endblock conteudo %}

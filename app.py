@@ -8,7 +8,8 @@ import os, json
 import uuid
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import smtplib
+import smtplib, ssl
+import pandas as pd
 
 # "sqlite:///cursos.sqlite3"
 #mysql://root:tecnical@localhost/ramais"
@@ -202,9 +203,70 @@ def search():
 	return resp
 
 
-@app.route ('/email')
-def email ():
-    return render_template('email.html')
+@app.route ('/<int:id>/sugerir_ramal',  methods = ["GET", "POST"])
+def sugerir_ramal (id):
+    ramal = ramais.query.filter_by (id=id).first()
+    if request.method == "POST":
+        nome = request.form ["nome"]
+        departamento = request.form ["departamento"]
+        ramal = request.form ["ramal"]
+        loja = request.form ["loja"]
+        # Define the HTML document
+        html = ''' 
+            <html>
+                <body>
+                    <h2 style = "color:blue;">Nova Sugestão de Ramal!</h2>
+                <a href="http://localhost:552/admramal" type ="submit">Visualizar</a>
+                </body>
+            </html>
+                '''
+
+        # Set up the email addresses and password. Please replace below with your email address and password
+        email_from = 'ramais@grupometronorte.com.br'
+        password = 'Metro@12'
+        email_to = 'ramais@grupometronorte.com.br'
+
+        # Generate today's date to be included in the email Subject
+        date_str = pd.Timestamp.today().strftime('%Y-%m-%d')
+        nome1=f'Nome:{nome}\n'
+        departamento1=f'Descrição:{departamento}\n'
+        ramal1=f'Carga Horária:{ramal}\n'
+        loja1=f'Revenda:{loja}'
+        
+
+
+        # Create a MIMEMultipart class, and set up the From, To, Subject fields
+        email_message = MIMEMultipart("plain")
+        email_message['From'] = email_from
+        email_message['To'] = email_to
+        email_message['Subject'] = f'Nova Solicitação - {date_str}'
+
+        # Attach the html doc defined earlier, as a MIMEText html content type to the MIME message
+        email_message.attach(MIMEText(html, "html"))
+        email_message.attach(MIMEText(nome1, "plain"))
+        email_message.attach(MIMEText(departamento1, "plain"))
+        email_message.attach(MIMEText(ramal1, "plain"))
+        email_message.attach(MIMEText(loja1, "plain" ))
+        
+        # Convert it as a string
+        email_string = email_message.as_string()
+
+        # Connect to the Gmail SMTP server and Send Email
+        context = ssl.create_default_context()
+        with smtplib.SMTP("smtp.grupometronorte.com.br", 587) as server:
+            server.login(email_from, password)
+            server.sendmail(email_from, email_to, email_string)
+            flash ("Dados enviados ao Administrador!")
+            return redirect (url_for('lista_ramais'))
+        
+
+    return render_template ("sugerir_ramal.html", ramal=ramal)
+
+
+
+
+
+
 
 
 
