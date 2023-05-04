@@ -42,17 +42,20 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-            <a class="navbar-brand" href="#">Ramais Metronorte</a>
+            <a class="navbar-brand" href="#">Metronorte.IO</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href ="{{url_for('lista_ramais')}}" aria-current="page" href="">Home</a>
+                    <a class="nav-link active" aria-current="page" href="">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="blank" href= "http://hubmetronorte">Hub</a>
+                    <a class="nav-link" href="{{url_for('lista_ramais')}}">Ramais</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('home')}}">Share</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" target="blank" href="https://www.metronortechevroletmatriz.com.br">Sobre</a>
@@ -60,8 +63,8 @@
                     <a class="nav-link disabled"></a>
                 </li>
                 </ul>
-                <form class="d-flex"  action="{{url_for('pesquisar')}}" action ="{{url_for('pesquisaradm')}}" method="POST">
-                    <input class="form-control me-2" type="text" name="search" placeholder="Digite aqui" aria-label="Search" id="searchBox">
+                <form class="d-flex" action="{{url_for('pesquisaradm')}}" method="POST">
+                    <input class="form-control me-2" type="text" name="search2" placeholder="Digite aqui" aria-label="Search" id= "searchBox">
                     <button class="btn btn-primary"  type="submit">Pesquisar</button>
     
                     </form>

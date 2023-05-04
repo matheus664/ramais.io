@@ -1,4 +1,4 @@
-{%extends 'base.html'%}
+{%extends 'baseadmin.html'%}
 
 {% block conteudo %}
 
@@ -28,8 +28,8 @@
               <td>{{n.departamento}}</td>
               <td>{{n.ramal}}</td>
               <td>{{n.loja}}</td>
-              <td><a href="{{n.id}}/sugerir_ramal"  class="btn btn-secondary">Sugerir</a>    </td>
-              
+              <td><a href="{{n.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
+              <td><a href="{{n.id}}/remove_ramal"   onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
 
       </tbody>
 
@@ -44,8 +44,8 @@
               <td>{{d.departamento}}</td>
               <td>{{d.ramal}}</td>
               <td>{{d.loja}}</td>
-              <td><a href="{{d.id}}/sugerir_ramal"  class="btn btn-secondary">Sugerir</a>    </td>
-              
+              <td><a href="{{d.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
+              <td><a href="{{d.id}}/remove_ramal"   onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
 
       </tbody>
 
@@ -60,8 +60,8 @@
               <td>{{r.departamento}}</td>
               <td>{{r.ramal}}</td>
               <td>{{r.loja}}</td>
-              <td><a href="{{r.id}}/sugerir_ramal"  class="btn btn-secondary">Sugerir</a>    </td>
-              
+              <td><a href="{{r.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
+              <td><a href="{{r.id}}/remove_ramal"   onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
   
       </tbody>
           {% endfor%}
@@ -76,7 +76,8 @@
               <td>{{l.ramal}}</td>
               <td>{{l.loja}}</td>
               <td><a href="{{l.id}}/sugerir_ramal"  class="btn btn-secondary">Sugerir</a>    </td>
-              
+              <td><a href="{{l.id}}/atualiza_ramal" class="btn btn-secondary ">Editar</a></td>
+              <td><a href="{{l.id}}/remove_ramal"   onclick= "return confirm ('Deseja excluir esse registro?') " class="btn btn-danger">Excluir</a></td>
   
       </tbody>
 

@@ -17,13 +17,10 @@ import pandas as pd
 
 app = Flask (__name__)
 
-
-
-
-
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-app.config.from_object('config')
+app.config.from_object ('config')
+
 
 db = SQLAlchemy(app)
 
@@ -120,20 +117,38 @@ def remove_ramal (id):
 @app.route ('/results', methods = ["GET","POST"])
 def pesquisar ():
     resultado = request.form.get ("search")
-    pesquisa = "{}".format(resultado)
-    nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
-    departamento = ramais.query.filter (ramais.departamento.like(pesquisa)).all()
-    ramal = ramais.query.filter(ramais.ramal.like(pesquisa)).all()
-    loja = ramais.query.filter (ramais.loja.like(pesquisa)).all()
+    if resultado == '':
+        return render_template ("erro.html")
+    else :
+        pesquisa = "{}".format(resultado)
+        nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
+        departamento = ramais.query.filter (ramais.departamento.like(pesquisa)).all()
+        ramal = ramais.query.filter(ramais.ramal.like(pesquisa)).all()
+        loja = ramais.query.filter (ramais.loja.like(pesquisa)).all()
+
     
     return render_template ('retorno_ramal.html', nome=nome, departamento=departamento, ramal=ramal, loja=loja)
 
+
+@app.route ('/resultsadmin', methods = ["GET", "POST"])
+def pesquisaradm():
+    resultado = request.form.get ("search2")
+    if resultado == '':
+        return render_template ("erro.html")
+    else:
+        pesquisa = "{}".format(resultado)
+        nome = ramais.query.filter(ramais.nome.like(pesquisa)).all()
+        departamento = ramais.query.filter(ramais.departamento.like(pesquisa)).all()
+        ramal = ramais.query.filter(ramais.ramal.like(pesquisa)).all()
+        loja = ramais.query.filter(ramais.loja.like(pesquisa)).all()
+        
+    return render_template ("retorno_ramaladmin.html", nome=nome, departamento=departamento, ramal=ramal, loja=loja)
 
 @app.route ('/admin', methods = ["GET", "POST"])
 def login ():
     if request.method == "POST":
         usuario = request.form.get ("usuario")
-        senha = request.form.get ("senha")
+        senha   = request.form.get ("senha")
         if usuario == "admin" and senha == "admin":
                 return redirect (url_for('admramal'))
         else :
@@ -151,11 +166,8 @@ def admramal ():
     return render_template ('ramaisauth.html', ramal = ramal)
 
 
-
-
 def arquivos_permitidos (filename):
     return '.' in filename and filename.rsplit ('.',1)[1].lower () in TIPOS_DISPONIVEIS
-
 
 
 @app.route ('/upload')
@@ -217,8 +229,8 @@ def sugerir_ramal (id):
         html = ''' 
             <html>
                 <body>
-                    <h2 style = "color:blue;">Nova Sugestão de Ramal!</h2>
-                <a href="http://localhost:552/admramal" type ="submit">Visualizar</a>
+                    <h2 style ="color:blue;">Nova Sugestão de Ramal!</h2>
+                <a href="http://metronorte.io:552/admramal" type="submit">Visualizar</a>
                 </body>
             </html>
                 '''
@@ -231,8 +243,8 @@ def sugerir_ramal (id):
         # Generate today's date to be included in the email Subject
         date_str = pd.Timestamp.today().strftime('%Y-%m-%d')
         nome1=f'Nome:{nome}\n'
-        departamento1=f'Descrição:{departamento}\n'
-        ramal1=f'Carga Horária:{ramal}\n'
+        departamento1=f'Departamento:{departamento}\n'
+        ramal1=f'Ramal:{ramal}\n'
         loja1=f'Revenda:{loja}'
         
 
@@ -266,16 +278,8 @@ def sugerir_ramal (id):
 
 
 
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
-    website_url = 'metronorte.io:552'
-    app.config['SERVER_NAME'] = website_url
+    # website_url = 'metronorte.io:552'
+    # app.config['SERVER_NAME'] = website_url
 
-    app.run()
+    app.run(host="10.3.149.105", port=552)
