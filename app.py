@@ -121,10 +121,16 @@ def pesquisar ():
         return render_template ("erro.html")
     else :
         pesquisa = "{}".format(resultado)
-        nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
-        departamento = ramais.query.filter (ramais.departamento.like(pesquisa)).all()
-        ramal = ramais.query.filter(ramais.ramal.like(pesquisa)).all()
-        loja = ramais.query.filter (ramais.loja.like(pesquisa)).all()
+        convertpes = (pesquisa[0:1])
+        print(convertpes)
+        conpesquisa = convertpes.upper()
+        s1, s2 = conpesquisa,pesquisa
+        s = f'{s1} {s2}'
+        print(s) 
+        nome = ramais.query.filter(ramais.nome.like (s)).all()
+        departamento = ramais.query.filter (ramais.departamento.like(s)).all()
+        ramal = ramais.query.filter(ramais.ramal.like(s)).all()
+        loja = ramais.query.filter (ramais.loja.like(s)).all() 
 
     
     return render_template ('retorno_ramal.html', nome=nome, departamento=departamento, ramal=ramal, loja=loja)
@@ -151,8 +157,15 @@ def login ():
         senha   = request.form.get ("senha")
         if usuario == "admin" and senha == "admin":
                 return redirect (url_for('admramal'))
+        elif usuario == '':
+            flash ("Campo 'Usuário' vazio, preencha para ter acesso!")
+        elif senha == '':
+            flash ("Campo 'Senha' vazio, preencha para ter acesso!")
+        elif usuario == '' and senha == '':
+            flash ("Insira credenciais para Usuário e Senha para Continuar!")
         else :
-            abort (401)
+            flash ("Caro administrador, 'Usuário' ou 'Senha' estão incorretos, tente novamente!")
+        
     
     
     return render_template ('admin.html')
@@ -230,7 +243,7 @@ def sugerir_ramal (id):
             <html>
                 <body>
                     <h2 style ="color:blue;">Nova Sugestão de Ramal!</h2>
-                <a href="http://metronorte.io:552/admramal" type="submit">Visualizar</a>
+                <a href="http://10.3.149.105:552/admramal" type="submit">Visualizar</a>
                 </body>
             </html>
                 '''
