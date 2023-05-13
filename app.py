@@ -11,6 +11,7 @@ from email.mime.text import MIMEText
 import smtplib, ssl
 import pandas as pd
 
+
 # "sqlite:///cursos.sqlite3"
 #mysql://root:tecnical@localhost/ramais"
 
@@ -24,7 +25,7 @@ app.config.from_object ('config')
 
 db = SQLAlchemy(app)
 
-ROWS_PER_PAGE = 6
+ROWS_PER_PAGE = 4
 TIPOS_DISPONIVEIS = set (['png', 'jpg', 'jpeg', 'gif', 'pdf', 'xlsx', 'aac', 'mp3'])
 
 
@@ -60,6 +61,15 @@ def lista_ramaisauth ():
     ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
     
     return render_template ('ramaisauth.html', ramal = ramal)
+
+
+@app.route ('/sobre')
+def sobre ():
+    
+    page = request.args.get('page', 1, type=int)
+    ramal = ramais.query.paginate(page=page, per_page=ROWS_PER_PAGE)
+    
+    return render_template ('sobre.html', ramal= ramal)
 
 
     
@@ -121,19 +131,29 @@ def pesquisar ():
         return render_template ("erro.html")
     else :
         pesquisa = "{}".format(resultado)
-        convertpes = (pesquisa[0:1])
-        print(convertpes)
-        conpesquisa = convertpes.upper()
-        s1, s2 = conpesquisa,pesquisa
-        s = f'{s1} {s2}'
-        print(s) 
-        nome = ramais.query.filter(ramais.nome.like (s)).all()
-        departamento = ramais.query.filter (ramais.departamento.like(s)).all()
-        ramal = ramais.query.filter(ramais.ramal.like(s)).all()
-        loja = ramais.query.filter (ramais.loja.like(s)).all() 
+        nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
+        departamento = ramais.query.filter (ramais.departamento.like(pesquisa)).all()
+        ramal = ramais.query.filter(ramais.ramal.like(pesquisa)).all()
+        loja = ramais.query.filter (ramais.loja.like(pesquisa)).all() 
 
     
     return render_template ('retorno_ramal.html', nome=nome, departamento=departamento, ramal=ramal, loja=loja)
+
+
+@app.route ('/resultscard', methods = ["GET","POST"])
+def pesquisarcard ():
+    resultado = request.form.get ("search")
+    if resultado == '':
+        return render_template ("erro.html")
+    else :
+        pesquisa = "{}".format(resultado)
+        nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
+        departamento = ramais.query.filter (ramais.departamento.like(pesquisa)).all()
+        ramal = ramais.query.filter(ramais.ramal.like(pesquisa)).all()
+        loja = ramais.query.filter (ramais.loja.like(pesquisa)).all() 
+
+    
+    return render_template ('retorno_ramalcard.html', nome=nome, departamento=departamento, ramal=ramal, loja=loja)
 
 
 @app.route ('/resultsadmin', methods = ["GET", "POST"])
@@ -288,6 +308,7 @@ def sugerir_ramal (id):
         
 
     return render_template ("sugerir_ramal.html", ramal=ramal)
+
 
 
 

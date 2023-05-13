@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+{%block conteudo%}
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                {%for n in nome%}
+                    <h5 class="card-title">{{n.nome}}</h5>
+                {%endfor%}
+                <p class="card-text">Tudo posso naquele que me fortalece</p>
+                {%for d in departamento%}
+                    <h6>Departamento<span class="badge bg-primary">{{d.departamento}}</span></h6>
+                {%endfor%}
+                {%for r in ramal%}
+                    <h6>Ramal <span class="badge bg-primary">{{r.ramal}}</span></h6>
+                {%endfor%}
+                
+                {%for l in loja%}
+                    <h6>Revenda<span class="badge bg-primary">{{l.loja}}</span></h6>
+                {% endfor%}
+
+                    <a href="" target="_blank" class="btn btn-primary">Sugerir</a>
+
+
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock conteudo%}

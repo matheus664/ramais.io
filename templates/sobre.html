@@ -1,0 +1,70 @@
+{% extends 'base.html'%}
+
+
+{% block conteudo%}
+
+<h1 style="text-align: center;" class="display-6">Ramais</h1>
+<br>
+
+<div class="row">
+    {%for r in ramal.items%}
+    <div class="col-md-3">
+        <div class="card" style="width: 15rem;">
+        <div class="card-body">
+        <h5 class="card-title">{{r.nome}}</h5>
+        <p class="card-text">Tudo posso naquele que me fortalece</p>
+        <h6>Departamento  <span class="badge bg-primary"> {{r.departamento }}  </span>     </h6>
+        <h6>Ramal <span class="badge bg-primary">    {{r.ramal}}       </span>     </h6>
+        <h6>Revenda  <span class="badge bg-primary"> {{r.loja }}  </span>     </h6>
+
+        <a href="" target="_blank" class="btn btn-primary">Sugerir</a>
+
+
+        </div>
+    </div>
+    </div>
+    {%endfor%}
+</div>
+
+<!-- Pagination Links-->
+<div class="text-right">
+    <a href="{{ url_for('sobre', page=ramal.prev_num) }}"
+       class="btn btn-primary
+       {% if ramal.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a>
+<!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in ramal.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+            {% if ramal.page == page_num %}
+            <a href="{{ url_for('sobre', page=page_num) }}"
+               class="btn btn-primary">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('sobre', page=page_num) }}"
+               class="btn btn-primary">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+    <a href="{{ url_for('sobre', page=ramal.next_num) }}"
+       class="btn btn-primary 
+       {% if ramal.page == ramal.pages %}disabled{% endif %}">
+        &raquo;
+    </a>
+</div>
+<p class="text-right mt-3">
+   Mostrando página {{ ramal.page }} de {{ ramal.pages }}
+</p>
+  </table>
+
+
+
+
+
+{% endblock conteudo%}
