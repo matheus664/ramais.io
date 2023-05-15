@@ -49,18 +49,18 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href ="{{url_for('lista_ramais')}}" aria-current="page" href="">Home</a>
+                    <a class="nav-link active" href ="{{url_for('lista_ramaiscard')}}" aria-current="page" href="">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" target="blank" href= "http://hubmetronorte">Hub</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="blank" href="{{url_for('sobre')}}">Sobre</a>
+                    <a class="nav-link" target="blank" href="">Sobre</a>
                 <li class="nav-item">
                     <a class="nav-link disabled"></a>
                 </li>
                 </ul>
-                <form class="d-flex"  action="{{url_for('pesquisarcard')}}" action ="{{url_for('pesquisaradm')}}" action= "{{url_for('pesquisarcard')}}" method="POST">
+                <form class="d-flex"  action="{{url_for('pesquisar')}}" action ="{{url_for('pesquisaradm')}}" action= "{{url_for('pesquisarcard')}}" method="POST">
                     <input class="form-control me-2" type="text" name="search" placeholder="Digite aqui" aria-label="Search" id="searchBox">
                     <button class="btn btn-primary"  type="submit">Pesquisar</button>
     

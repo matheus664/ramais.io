@@ -52,7 +52,7 @@ def lista_ramais ():
     page = request.args.get('page', 1, type=int)
     ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
     
-    return render_template ('ramais.html', ramal = ramal)
+    return render_template ('ramaiscard.html', ramal = ramal)
 
 @app.route ('/ramaisauth')
 def lista_ramaisauth ():
@@ -63,13 +63,13 @@ def lista_ramaisauth ():
     return render_template ('ramaisauth.html', ramal = ramal)
 
 
-@app.route ('/sobre')
-def sobre ():
+@app.route ('/ramaiscard')
+def lista_ramaiscard ():
     
     page = request.args.get('page', 1, type=int)
     ramal = ramais.query.paginate(page=page, per_page=ROWS_PER_PAGE)
     
-    return render_template ('sobre.html', ramal= ramal)
+    return render_template ('ramaiscard.html', ramal=ramal)
 
 
     
@@ -304,7 +304,7 @@ def sugerir_ramal (id):
             server.login(email_from, password)
             server.sendmail(email_from, email_to, email_string)
             flash ("Dados enviados ao Administrador!")
-            return redirect (url_for('lista_ramais'))
+            return redirect (url_for('lista_ramaiscard'))
         
 
     return render_template ("sugerir_ramal.html", ramal=ramal)

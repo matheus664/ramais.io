@@ -6,6 +6,16 @@
 <h1 style="text-align: center;" class="display-6">Ramais</h1>
 <br>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="alert alert-success">
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <div class="row">
     {%for r in ramal.items%}
     <div class="col-md-3">
@@ -13,11 +23,11 @@
         <div class="card-body">
         <h5 class="card-title">{{r.nome}}</h5>
         <p class="card-text">Tudo posso naquele que me fortalece</p>
-        <h6>Departamento  <span class="badge bg-primary"> {{r.departamento }}  </span>     </h6>
-        <h6>Ramal <span class="badge bg-primary">    {{r.ramal}}       </span>     </h6>
-        <h6>Revenda  <span class="badge bg-primary"> {{r.loja }}  </span>     </h6>
+        <h6>Departamento  <span class="badge bg-primary"> {{r.departamento }}</span></h6>
+        <h6>Ramal <span class="badge bg-primary">    {{r.ramal}}</span>     </h6>
+        <h6>Revenda  <span class="badge bg-primary"> {{r.loja }}</span>     </h6>
 
-        <a href="" target="_blank" class="btn btn-primary">Sugerir</a>
+        <a href="{{r.id}}/sugerir_ramal" class="btn btn-primary">Sugerir</a>
 
 
         </div>
@@ -28,7 +38,7 @@
 
 <!-- Pagination Links-->
 <div class="text-right">
-    <a href="{{ url_for('sobre', page=ramal.prev_num) }}"
+    <a href="{{ url_for('lista_ramaiscard', page=ramal.prev_num) }}"
        class="btn btn-primary
        {% if ramal.page == 1 %}disabled{% endif %}">
         &laquo;
@@ -38,12 +48,12 @@
 {% if page_num %}
 <!-- Check for the active page and set the link to "Active"-->
             {% if ramal.page == page_num %}
-            <a href="{{ url_for('sobre', page=page_num) }}"
+            <a href="{{ url_for('lista_ramaiscard', page=page_num) }}"
                class="btn btn-primary">
                 {{ page_num }}
             </a>
             {% else %}
-            <a href="{{ url_for('sobre', page=page_num) }}"
+            <a href="{{ url_for('lista_ramaiscard', page=page_num) }}"
                class="btn btn-primary">
                 {{ page_num }}
             </a>
@@ -52,7 +62,7 @@
             ...
         {% endif %}
     {% endfor %}
-    <a href="{{ url_for('sobre', page=ramal.next_num) }}"
+    <a href="{{ url_for('lista_ramaiscard', page=ramal.next_num) }}"
        class="btn btn-primary 
        {% if ramal.page == ramal.pages %}disabled{% endif %}">
         &raquo;
