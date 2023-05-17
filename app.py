@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, Blueprint, abort, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, Blueprint, abort, jsonify, escape
 import urllib.request , json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select, create_engine, engine
