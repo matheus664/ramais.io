@@ -26,6 +26,8 @@ app.config.from_object ('config')
 db = SQLAlchemy(app)
 
 ROWS_PER_PAGE = 4
+ROWS_PER_PAGEADM = 7
+
 TIPOS_DISPONIVEIS = set (['png', 'jpg', 'jpeg', 'gif', 'pdf', 'xlsx', 'aac', 'mp3'])
 
 
@@ -58,7 +60,7 @@ def lista_ramais ():
 def lista_ramaisauth ():
 
     page = request.args.get('page', 1, type=int)
-    ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
+    ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGEADM)
     
     return render_template ('ramaisauth.html', ramal = ramal)
 
@@ -131,10 +133,13 @@ def pesquisar ():
         return render_template ("erro.html")
     else :
         pesquisa = "{}".format(resultado)
-        nome = ramais.query.filter(ramais.nome.like (pesquisa)).all()
-        departamento = ramais.query.filter (ramais.departamento.like(pesquisa)).all()
-        ramal = ramais.query.filter(ramais.ramal.like(pesquisa)).all()
-        loja = ramais.query.filter (ramais.loja.like(pesquisa)).all() 
+        upperpesquisa = pesquisa.upper()
+        convert = upperpesquisa, pesquisa
+        print (convert) 
+        nome = ramais.query.filter(ramais.nome.like (upperpesquisa)).all()
+        departamento = ramais.query.filter (ramais.departamento.like(upperpesquisa)).all()
+        ramal = ramais.query.filter(ramais.ramal.like(upperpesquisa)).all()
+        loja = ramais.query.filter (ramais.loja.like(upperpesquisa)).all() 
 
     
     return render_template ('retorno_ramal.html', nome=nome, departamento=departamento, ramal=ramal, loja=loja)
@@ -194,7 +199,7 @@ def login ():
 @app.route ('/admramal', methods = ["GET", "POST"])
 def admramal ():
     page = request.args.get('page', 1, type=int)
-    ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
+    ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGEADM)
     
     return render_template ('ramaisauth.html', ramal = ramal)
 
@@ -233,21 +238,24 @@ def upload_form():
 
 @app.route('/search', methods=['POST'])
 def search():
-	term = request.form['q']
-	print ('term: ', term)
-	
-	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-	json_url = os.path.join(SITE_ROOT, "results.json")
-	json_data = json.loads(open(json_url).read())
+    term = request.form['q']
+    substring = term [0:1]
+    caps = substring.upper()
+    string = term [1 :]
+    stringfull = caps+string
+    print ('term: ', stringfull)	
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_url = os.path.join(SITE_ROOT, "results.json")
+    json_data = json.loads(open(json_url).read())
 	#print (json_data)
 	#print (json_data[0])
 	
-	filtered_dict = [v for v in json_data if term in v]	
+    filtered_dict = [v for v in json_data if stringfull in v]	
 	#print(filtered_dict)
 	
-	resp = jsonify(filtered_dict)
-	resp.status_code = 200
-	return resp
+    resp = jsonify(filtered_dict)
+    resp.status_code = 200
+    return resp
 
 
 @app.route ('/<int:id>/sugerir_ramal',  methods = ["GET", "POST"])
