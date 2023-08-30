@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+
+
+<table class="table table-bordered table-hover">
+    <thead class="table-default">
+        <tr>
+          <!-- <th scope="col">Id</th> -->
+          <th scope="col">Nome</th>
+          <th scope="col">Departamento</th>
+          <th scope="col">Ramal</th>
+          <th scope="col">Revenda</th>
+          <!-- <th scope="col">Ativo</th> -->
+          
+          
+
+          
+    </thead>
+    <tbody>
+    {% for s in solicitacao.items%}
+    <tr>
+        <td>{{s.nome}}</td>
+        <td>{{s.departamento}}</td>
+        <td>{{s.ramal}}</td>
+        <td>{{s.loja}}</td>
+        <td><a href="{{s.id}}/altera_ramal" class="btn btn-light ">Alterar</a></td>
+        <td><a href="{{s.id}}/remove_solicitacao" onclick= "return confirm ('Após a reprovação, a solicitação será excluida, prosseguir?') " class="btn btn-danger">Reprovar</a></td>
+    </tr>
+
+    {%endfor%}
+    </tbody>
+</table>
+
+
+
+
+
+
+{% endblock conteudo %}

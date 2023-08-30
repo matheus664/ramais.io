@@ -25,8 +25,8 @@ app.config.from_object ('config')
 
 db = SQLAlchemy(app)
 
-ROWS_PER_PAGE = 4
-ROWS_PER_PAGEADM = 7
+ROWS_PER_PAGE = 10
+ROWS_PER_PAGEADM = 20
 
 TIPOS_DISPONIVEIS = set (['png', 'jpg', 'jpeg', 'gif', 'pdf', 'xlsx', 'aac', 'mp3'])
 
@@ -45,6 +45,21 @@ class ramais (db.Model):
         self.departamento = departamento
         self.ramal = ramal
         self.loja = loja
+
+
+class solicitacoes (db.Model):
+    id = db.Column (db.Integer,primary_key = True)
+    nome = db.Column (db.String(50)) 
+    departamento = db.Column (db.String(100))
+    ramal = db.Column (db.Integer)
+    loja = db.Column (db.String(50))
+
+    def __init__(self,nome,departamento,ramal,loja):
+        self.nome = nome
+        self.departamento = departamento
+        self.ramal = ramal
+        self.loja = loja
+
         
 
 
@@ -54,7 +69,7 @@ def lista_ramais ():
     page = request.args.get('page', 1, type=int)
     ramal = ramais.query.paginate(page=page, per_page = ROWS_PER_PAGE)
     
-    return render_template ('ramaiscard.html', ramal = ramal)
+    return render_template ('ramais.html', ramal = ramal)
 
 @app.route ('/ramaisauth')
 def lista_ramaisauth ():
@@ -65,13 +80,13 @@ def lista_ramaisauth ():
     return render_template ('ramaisauth.html', ramal = ramal)
 
 
-@app.route ('/ramaiscard')
+@app.route ('/ramais')
 def lista_ramaiscard ():
     
     page = request.args.get('page', 1, type=int)
     ramal = ramais.query.paginate(page=page, per_page=ROWS_PER_PAGE)
     
-    return render_template ('ramaiscard.html', ramal=ramal)
+    return render_template ('ramais.html', ramal=ramal)
 
 
     
@@ -97,15 +112,42 @@ def cria_ramal ():
 
 
 
-@app.route ('/<int:id>/atualiza_ramal', methods = ["GET", "POST"])
-def atualiza_ramal (id):
+@app.route ('/solicitacoes', methods = ["GET","POST"])
+def solicitacao_ramal ():
+   
+    page = request.args.get('page', 1, type=int)
+    solicitacao = solicitacoes.query.paginate(page=page, per_page = ROWS_PER_PAGEADM)
+    
+    return render_template ('solicitacao_ramal.html', solicitacao=solicitacao)
+
+
+@app.route ('/<int:id>/altera_ramal',methods = ["GET", "POST"])
+def altera_ramal(id):
+    solicitacao = solicitacoes.query.filter_by (id=id).first()
     ramal = ramais.query.filter_by (id=id).first()
     if request.method == "POST":
         nome = request.form ["nome"]
         departamento = request.form ["departamento"]
         ramal = request.form ["ramal"]
         loja = request.form ["loja"]
+        ramais.query.filter_by (id=id).update ({"nome":nome,"departamento":departamento, "ramal":ramal,"loja":loja})
+        db.session.delete(solicitacao)
+        db.session.commit ()
+        flash ("Dados atualizados com sucesso!")
 
+    
+    return render_template ("atualiza_solicitacao.html",solicitacao=solicitacao)
+
+
+
+@app.route ('/<int:id>/atualiza_ramal', methods = ["GET", "POST"])
+def atualiza_ramal (id):
+    ramal =       ramais.query.filter_by (id=id).first()
+    if request.method == "POST":
+        nome = request.form ["nome"]
+        departamento = request.form ["departamento"]
+        ramal = request.form ["ramal"]
+        loja = request.form ["loja"]
         ramais.query.filter_by (id=id).update ({"nome":nome,"departamento":departamento, "ramal":ramal,"loja":loja})
         db.session.commit ()
         flash ("Dados atualizados com sucesso!")
@@ -113,14 +155,30 @@ def atualiza_ramal (id):
 
     return render_template ("atualiza_ramal.html", ramal=ramal)
 
+
+
+
+
+
+
     
 
 
-@app.route ('/<int:id>/remove_ramal', methods =["GET", "POST"])
+@app.route ('/<int:id>/remove_ramal', methods = ["GET", "POST"])
 def remove_ramal (id):
 
     ramal = ramais.query.filter_by (id=id).first()
     db.session.delete(ramal)
+    db.session.commit()
+    flash ("Dados excluídos com sucesso!")
+    return redirect (url_for('lista_ramaisauth'))
+
+
+@app.route ('/<int:id>/remove_solicitacao', methods = ["GET", "POST"])
+def remove_solicitacao (id):
+
+    solicitacao = solicitacoes.query.filter_by (id=id).first()
+    db.session.delete(solicitacao)
     db.session.commit()
     flash ("Dados excluídos com sucesso!")
     return redirect (url_for('lista_ramaisauth'))
@@ -189,7 +247,7 @@ def login ():
         elif usuario == '' and senha == '':
             flash ("Insira credenciais para Usuário e Senha para Continuar!")
         else :
-            flash ("Caro administrador, 'Usuário' ou 'Senha' estão incorretos, tente novamente!")
+            flash ("Caro administrador, credenciais incorretas, tente novamente!")
         
     
     
@@ -261,11 +319,18 @@ def search():
 @app.route ('/<int:id>/sugerir_ramal',  methods = ["GET", "POST"])
 def sugerir_ramal (id):
     ramal = ramais.query.filter_by (id=id).first()
+    solicitacao =  solicitacoes.query.filter_by (id=id).first()
     if request.method == "POST":
         nome = request.form ["nome"]
         departamento = request.form ["departamento"]
         ramal = request.form ["ramal"]
         loja = request.form ["loja"]
+        if not nome or not departamento or not ramal or not loja:
+            flash ("Preencha todos os campos do formulário!", "error")
+        else:
+            solicitacao = solicitacoes (nome, departamento, ramal, loja)
+            db.session.add(solicitacao)
+            db.session.commit()
         # Define the HTML document
         html = ''' 
             <html>
@@ -324,4 +389,4 @@ if __name__ == '__main__':
     # website_url = 'metronorte.io:552'
     # app.config['SERVER_NAME'] = website_url
 
-    app.run(host="10.3.149.105", port=552)
+    app.run()

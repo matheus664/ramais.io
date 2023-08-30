@@ -2,7 +2,7 @@
 
 {% block conteudo %}
 
-<h1 style = 'text-align:center;' class ="display-6">Ramais</h1>
+<h1 style = 'text-align:left;' class ="display-6"></h1>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -80,36 +80,7 @@
 <p class="text-right mt-3">
    Mostrando página {{ ramal.page }} de {{ ramal.pages }}
 </p>
-  </table>
-  <div class="mx-4 px-4">
-    <div class="row">
-      <div class="col-6">
-        <h4>Ligação entre filiais</h4>
-        <pre>Para Ligações entre filiais utilizar o respectivo DDD antes do ramal, ex.:
-    Ligando para SJP        41xxxx
-    Ligando para PNGA       42xxxx
-    ligando para Matriz     43xxxx
-    Ligando para Colin      47xxxx
-    Ligando para SJ - SC    48xxxx
-    Ligando para Floripa    48xxxx
-    etc...</pre>
-      </div>
-      <div class="col-6">
-        <h4>Números pilotos das filiais (Ligação direta)</h4>
-        <pre class="ml-4">
-1.1  - Metronorte Matriz        43 3377-1212
-1.2  - Metronorte JK            43 3373-1212
-1.4  - Valesul SJP              41 3081-9900
-1.5  - Valesul PGNA             41 3038-9900
-1.9  - Metronorte Joinville     47 2105-4500
-7.2  - Opera Peugeot            41 3253-7800
-1.13 - Metronorte São José - SC 48 3279-5900 
-1.18 - Floripa Ilha             48-3113-8100
-1.19 - Floripa Continente       48-3113-8200
-1.20 - Floripa Campinas         48-3113-8300</pre>
-      </div>
-    </div>
-  </div>
+
 
 
 {% endblock conteudo %}
